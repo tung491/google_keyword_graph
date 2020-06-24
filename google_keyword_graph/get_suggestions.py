@@ -85,7 +85,9 @@ def get_sub_suggestions(depth: int, suggestions: list):
         get_sub_suggestions(depth - 1, accepted_terms)
 
 
-def store_suggestions(keyword, depth):
+def store_suggestions(keyword: str, depth: int):
+    if depth < 1:
+        raise ValueError('Invaild depth')
     create_table()
     suggestions = get_suggestions(keyword)
     for suggestion in suggestions:

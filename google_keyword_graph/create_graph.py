@@ -1,8 +1,10 @@
 import sqlite3
 import networkx as nx
+from typing import Tuple
+from networkx.classes.graph import Graph
 
 
-def gen_nodes_and_edges():
+def gen_nodes_and_edges() -> Tuple[list, list]:
     conn = sqlite3.connect('keywords.db')
     cursor = conn.cursor()
     nodes = cursor.execute('''select target, count(*) from keywords group by target''').fetchall()
@@ -20,7 +22,7 @@ def gen_nodes_and_edges():
     return nodes, edges
 
 
-def gen_graph(keyword):
+def gen_graph(keyword: str) -> Graph:
     nodes, edges = gen_nodes_and_edges()
     G = nx.Graph()
     G.add_nodes_from(nodes)
@@ -40,7 +42,7 @@ def gen_graph(keyword):
     return pruned_EG
 
 
-def write_to_csv():
+def write_to_csv() -> None:
     nodes, edges = gen_nodes_and_edges()
     with open('points.csv', 'w') as f:
         for node in nodes:
